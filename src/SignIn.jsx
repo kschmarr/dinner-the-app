@@ -16,12 +16,12 @@ export default class SignIn extends Component {
         <form>
           <div id="usernameDiv" className="label-container">
             <label htmlFor="username">Username:</label>
-            <input type="text" id="username" data-placeholder="Username" />
+            <input type="text" id="username" placeholder="Username" />
           </div>
 
           <div id="passwordDiv" className="label-container">
             <label htmlFor="password">Password:</label>
-            <input type="password" id="password" data-placeholder="Password" />
+            <input type="password" id="password" placeholder="Password" />
           </div>
           <button className="submitBtn">
             <Link

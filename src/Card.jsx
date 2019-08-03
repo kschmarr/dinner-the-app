@@ -6,12 +6,13 @@ import { Link } from "react-router-dom";
 export default class Card extends Component {
   static contextType = ApiContext;
   componentDidMount() {
-    if (this.context.currentDinnerIndex === 0) {
-      this.context.nextDinner();
+    if (this.context.currentMealIndex === 0) {
+      this.context.nextMeal();
     }
   }
 
   render() {
+    const meal = this.context.currentMeal;
     return (
       <>
         <h1>Your next meal is: </h1>
@@ -20,14 +21,22 @@ export default class Card extends Component {
           Last eaten on: <span>!!figure out a way to do this!!</span>
         </h4>
         <button
+          className="submitBtn"
           onClick={() => {
-            this.context.nextDinner();
+            this.context.nextMeal();
           }}
         >
           Next Meal
         </button>
-        <button>
-          <Link to="/editmeal">Edit Meal</Link>
+        <button className="submitBtn">
+          <Link
+            to={{
+              pathname: `/edit-meal/${meal}`,
+              state: { meal }
+            }}
+          >
+            Edit Meal
+          </Link>
         </button>
       </>
     );

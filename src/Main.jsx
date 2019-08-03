@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import Nav from "./Nav";
 import Title from "./Title";
 import Card from "./Card";

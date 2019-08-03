@@ -3,14 +3,13 @@ import ApiContext from "./ApiContext";
 import Title from "./Title";
 import Nav from "./Nav";
 
-export default class SignIn extends Component {
+export default class AddMeal extends Component {
   static contextType = ApiContext;
   handleSubmitMeal = e => {
     e.preventDefault();
     let mealName = e.target.mealName.value;
     let regularity = e.target.regularity.value;
-    console.log(mealName, regularity);
-    this.context.addDinner(mealName, regularity);
+    this.context.addMeal(mealName, regularity);
     this.props.history.push("/list");
   };
   render() {
@@ -36,11 +35,11 @@ export default class SignIn extends Component {
             />
           </div>
 
-          <div id="passwordDiv">
+          <div id="regularityDiv">
             <label htmlFor="regularity">Regularity:</label>
             <select id="regularity" name="regularity">
               <option value="short">Regularly</option>
-              <option value="medium">Occasionally</option>
+              <option value="medium">Sparingly</option>
               <option value="long">Rarely</option>
             </select>
           </div>

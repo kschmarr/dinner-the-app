@@ -6,7 +6,7 @@ import "./App.css";
 import Main from "./Main";
 import Splash from "./Splash";
 import SignIn from "./SignIn";
-import DinnerList from "./DinnerList";
+import MealList from "./MealList";
 import AddMeal from "./AddMeal";
 import EditMeal from "./EditMeal";
 // import config from "./config";
@@ -20,8 +20,8 @@ class App extends Component {
       medium: ["Pasta", "Pizza", "Tikka Masala"],
       long: ["Meatloaf", "Steak"],
       restaurants: {},
-      currentDinnerIndex: 0,
-      currentDinner: "",
+      currentMealIndex: 0,
+      currentMeal: "",
       shortIndex: 0,
       mediumIndex: 0,
       longIndex: 0,
@@ -29,36 +29,36 @@ class App extends Component {
     };
   }
 
-  // The pattern for choosing dinners is SMSLSM (currentDinnerIndex 0 - 5)
-  // Keep track of which dinnerIndex, when I go to next meal I add one to dinnerIndex and the specific rotation index
+  // The pattern for choosing Meals is SMSLSM (currentMealIndex 0 - 5)
+  // Keep track of which MealIndex, when I go to next meal I add one to MealIndex and the specific rotation index
   // Reset cDI at 6, reset rotation indeces after their length is exceeded
 
   // componentDidMount() {
-  //   fetch(`${config.API_ENDPOINT}/dinners`)
+  //   fetch(`${config.API_ENDPOINT}/meals`)
   //     .then(data => {
   //       if (!data.ok) return data.json().then(e => Promise.reject(e));
   //       return Promise.all(data.json());
   //     })
   //     .then(json => {
   //       console.log(json);
-  //       this.setState({ dinners: json.title });
+  //       this.setState({ Meals: json.title });
   //     })
   // .then(res => {
   //   console.log(res[0].json());
   //   if (!res.ok) return res.json().then(e => Promise.reject(e));
   //   return Promise.all(res.json());
   // })
-  // .then(dinners => {
-  //   this.setState({ dinners });
+  // .then(meals => {
+  //   this.setState({ meals });
   // })
   //     .catch(error => {
   //       console.error({ error });
   //     });
   // }
 
-  handleNextDinner = () => {
+  handleNextMeal = () => {
     let {
-      currentDinnerIndex,
+      currentMealIndex,
       shortIndex,
       mediumIndex,
       longIndex,
@@ -66,8 +66,8 @@ class App extends Component {
       medium,
       long
     } = this.state;
-    // if (currentDinnerIndex > 5) {
-    //   currentDinnerIndex = 0;
+    // if (currentMealIndex > 5) {
+    //   currentMealIndex = 0;
     // }
     if (shortIndex > short.length - 1) {
       this.setState({ shortIndex: 0 });
@@ -79,49 +79,70 @@ class App extends Component {
       this.setState({ longIndex: 0 });
     }
     if (
-      currentDinnerIndex % 6 === 0 ||
-      currentDinnerIndex % 6 === 2 ||
-      (currentDinnerIndex % 6) % 6 === 4
+      currentMealIndex % 6 === 0 ||
+      currentMealIndex % 6 === 2 ||
+      currentMealIndex % 6 === 4
     ) {
-      this.setState({ currentDinner: short[shortIndex] });
+      this.setState({ currentMeal: short[shortIndex] });
       this.setState({ shortIndex: shortIndex + 1 });
-    } else if (currentDinnerIndex % 6 === 1 || currentDinnerIndex % 6 === 5) {
-      this.setState({ currentDinner: medium[mediumIndex] });
+    } else if (currentMealIndex % 6 === 1 || currentMealIndex % 6 === 5) {
+      this.setState({ currentMeal: medium[mediumIndex] });
       this.setState({ mediumIndex: mediumIndex + 1 });
     } else {
-      this.setState({ currentDinner: long[longIndex] });
+      this.setState({ currentMeal: long[longIndex] });
       this.setState({ longIndex: longIndex + 1 });
     }
-    this.setState({ currentDinnerIndex: currentDinnerIndex + 1 });
+    this.setState({ currentMealIndex: currentMealIndex + 1 });
   };
-  handleAddDinner = (mealName, regularity) => {
+  handleAddMeal = (meal, regularity) => {
     if (regularity === "short") {
-      this.setState({ short: [...this.state.short, mealName] });
+      this.setState({ short: [...this.state.short, meal] });
     } else if (regularity === "medium") {
-      this.setState({ medium: [...this.state.medium, mealName] });
+      this.setState({ medium: [...this.state.medium, meal] });
     } else if (regularity === "long") {
-      this.setState({ long: [...this.state.long, mealName] });
+      this.setState({ long: [...this.state.long, meal] });
     }
   };
-  // handleDeleteDinner = dinner => {
-  //   const newDinners = this.state.dinners.filter(each => each !== dinner);
-  //   this.setState({ dinners: newDinners });
-  // };
+  handleEditMeal = (mealSource, newMealName, newRegularity) => {
+    let oldRegularity = mealSource[0];
+    let oldIndex = mealSource[0];
+    if (oldRegularity === newRegularity) {
+      this.state[oldRegularity].splice(oldIndex, 1, newMealName);
+    } else {
+      this.state[oldRegularity].splice(oldIndex, 1);
+      this.handleAddMeal(newMealName, newRegularity);
+    }
+  };
+  handleDeleteMeal = (meal, regularity) => {
+    if (regularity === "short") {
+      this.setState({
+        short: [...this.state.short.filter(e => e !== meal)]
+      });
+    } else if (regularity === "medium") {
+      this.setState({
+        medium: [...this.state.medium.filter(e => e !== meal)]
+      });
+    } else if (regularity === "long") {
+      this.setState({
+        long: [...this.state.long.filter(e => e !== meal)]
+      });
+    }
+  };
   handleLogIn = () => {
     this.setState({ loggedIn: this.state.loggedIn === true ? false : true });
   };
   render() {
     const value = {
       loggedIn: this.state.loggedIn,
-      currentDinnerIndex: this.state.currentDinnerIndex,
-      currentDinner: this.state.currentDinner,
+      currentMealIndex: this.state.currentMealIndex,
+      currentMeal: this.state.currentMeal,
       short: this.state.short,
       medium: this.state.medium,
       long: this.state.long,
-      nextDinner: this.handleNextDinner,
-      deleteDinner: this.handleDeleteDinner,
-      addDinner: this.handleAddDinner,
-      editDinner: this.handleEditDinner,
+      nextMeal: this.handleNextMeal,
+      deleteMeal: this.handleDeleteMeal,
+      addMeal: this.handleAddMeal,
+      editMeal: this.handleEditMeal,
       logIn: this.handleLogIn
     };
     return (
@@ -130,10 +151,10 @@ class App extends Component {
           <div className="App">
             <Route exact path="/" component={Splash} />
             <Route exact path="/main" component={Main} />
-            <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/addmeal" component={AddMeal} />
-            <Route exact path="/editmeal/:mealid" component={EditMeal} />
-            <Route exact path="/list" component={DinnerList} />
+            <Route exact path="/sign-in" component={SignIn} />
+            <Route exact path="/add-meal" component={AddMeal} />
+            <Route exact path="/edit-meal/:meal" component={EditMeal} />
+            <Route exact path="/list" component={MealList} />
           </div>
         </Router>
       </ApiContext.Provider>

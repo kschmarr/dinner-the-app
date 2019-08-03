@@ -37,11 +37,11 @@ export default class Nav extends Component {
                 Sign-Out
               </Link>
             ) : (
-              <Link to="/signin">Sign-In</Link>
+              <Link to="/sign-in">Sign-In</Link>
             )}
           </li>
           <li>
-            <Link to="/addmeal">Add a Meal</Link>
+            <Link to="/add-meal">Add a Meal</Link>
           </li>
           <li>
             <Link to="/main">See Current Meal</Link>

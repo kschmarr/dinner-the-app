@@ -5,6 +5,6 @@ export default class MealName extends Component {
   static contextType = ApiContext;
 
   render() {
-    return <h2>{this.context.currentDinner}</h2>;
+    return <h2>{this.context.currentMeal}</h2>;
   }
 }

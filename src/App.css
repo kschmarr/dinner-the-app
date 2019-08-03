@@ -24,6 +24,11 @@ ul li {
   display: inline-block;
   margin: 1vw;
 }
+
+button {
+  width: 18%;
+  height: 15%;
+}
 .App {
   text-align: center;
 }
@@ -40,10 +45,11 @@ ul li {
 } */
 .label-container input {
   border: none;
-  font-size: 16px;
+  font-size: 24px;
   outline: 0;
   padding: 30px 30px 5px;
-  width: 100%;
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .label-container label {
@@ -57,5 +63,14 @@ ul li {
   background-color: white;
   font-size: 16px;
   width: 200px;
-  margin: 40px;
+  margin-top: 25px;
+}
+
+.label-container input #mealName {
+  width: 10%;
+  margin: 0 auto;
+}
+.mealSpan {
+  font-size: 24px;
+  margin: 0 10px;
 }

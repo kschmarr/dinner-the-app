@@ -30,7 +30,7 @@ export default class Splash extends Component {
             it from the rotation.
           </p>
         </section>
-        <Link to="/signin">OKAY, I get it!</Link>
+        <Link to="/sign-in">OKAY, I get it!</Link>
       </>
     );
   }

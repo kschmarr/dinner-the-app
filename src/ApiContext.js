@@ -2,14 +2,14 @@ import React from "react";
 
 export default React.createContext({
   loggedIn: false,
-  currentDinnerIndex: 0,
-  currentDinner: "",
+  currentMealIndex: 0,
+  currentMeal: "",
   short: [],
   medium: [],
   long: [],
-  nextDinner: () => {},
-  deleteDinner: () => {},
-  addDinner: () => {},
-  editDinner: () => {},
+  nextMeal: () => {},
+  deleteMeal: () => {},
+  addMeal: () => {},
+  editMeal: () => {},
   logIn: () => {}
 });
