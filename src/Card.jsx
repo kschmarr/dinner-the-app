@@ -5,21 +5,18 @@ import { Link } from "react-router-dom";
 
 export default class Card extends Component {
   static contextType = ApiContext;
-  componentDidMount() {
-    if (this.context.currentMealIndex === 0) {
-      this.context.nextMeal();
-    }
-  }
-
+  // componentDidMount() {
+  //   this.context.getMeal();
+  // }
   render() {
     const meal = this.context.currentMeal;
     return (
       <>
         <h1>Your next meal is: </h1>
         <MealName />
-        <h4>
+        {/* <h4>
           Last eaten on: <span>!!figure out a way to do this!!</span>
-        </h4>
+        </h4> */}
         <button
           className="submitBtn"
           onClick={() => {

@@ -2,16 +2,82 @@ import React, { Component } from "react";
 import ApiContext from "./ApiContext";
 import Title from "./Title";
 import Nav from "./Nav";
+import ValidationError from "./ValidationError";
+import config from "./config";
 
 export default class AddMeal extends Component {
   static contextType = ApiContext;
+  constructor(props) {
+    super(props);
+    this.state = {
+      meal: "",
+      nameValid: false,
+      validationMessages: {
+        name: ""
+      }
+    };
+  }
   handleSubmitMeal = e => {
     e.preventDefault();
-    let mealName = e.target.mealName.value;
-    let regularity = e.target.regularity.value;
-    this.context.addMeal(mealName, regularity);
-    this.props.history.push("/list");
+    const { meal } = this.state;
+    const regularity = e.target.regularity.value;
+    const userid = this.context.userid;
+    console.log(this.state.meal, regularity, userid);
+    const newMeal = {
+      meal: meal,
+      rotation: regularity,
+      userid: userid
+    };
+    fetch(`${config.API_ENDPOINT}/meals`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(newMeal)
+    })
+      .then(res => {
+        if (!res.ok) return res.json().then(e => Promise.reject(e));
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+        this.context.addMeal(meal, regularity);
+      })
+      .then(data => {
+        this.props.history.push("/list");
+        return data;
+      })
+
+      .catch(error => {
+        console.error({ error });
+      });
   };
+
+  validateName(fieldValue) {
+    const fieldErrors = { ...this.state.validationMessages };
+    let hasError = false;
+    fieldValue = fieldValue.trim();
+    if (fieldValue.length === 0) {
+      fieldErrors.name = "Name is required";
+      hasError = true;
+    } else {
+      if (fieldValue.length < 3) {
+        fieldErrors.name = "Name must be at least 3 characters long";
+        hasError = true;
+      } else {
+        fieldErrors.name = "";
+        hasError = false;
+      }
+    }
+
+    this.setState({
+      validationMessages: fieldErrors,
+      nameValid: !hasError,
+      meal: fieldValue
+    });
+    console.log(this.state.meal);
+  }
+
   render() {
     return (
       <>
@@ -32,6 +98,12 @@ export default class AddMeal extends Component {
               id="mealName"
               name="mealName"
               placeholder="Meal Name"
+              onChange={e => this.validateName(e.target.value)}
+              required
+            />
+            <ValidationError
+              hasError={!this.state.nameValid}
+              message={this.state.validationMessages.name}
             />
           </div>
 
@@ -43,7 +115,11 @@ export default class AddMeal extends Component {
               <option value="long">Rarely</option>
             </select>
           </div>
-          <button type="submit" className="submitBtn">
+          <button
+            type="submit"
+            className="submitBtn"
+            disabled={!this.state.nameValid}
+          >
             Submit Meal
           </button>
         </form>

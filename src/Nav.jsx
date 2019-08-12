@@ -1,37 +1,21 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import ApiContext from "./ApiContext";
+import TokenService from "./token-service";
 
 export default class Nav extends Component {
   static contextType = ApiContext;
 
   render() {
-    const { loggedIn } = this.context;
-    // let link;
-
-    // if (loggedIn) {
-    //   link = (
-    //     <Link
-    //       to="/signin"
-    //       onClick={() => {
-    //         this.context.logIn();
-    //       }}
-    //     >
-    //       Sign-Out
-    //     </Link>
-    //   );
-    // } else {
-    //   link = <Link to="/signin">Sign-In</Link>;
-    // }
     return (
       <nav className="nav">
         <ul>
           <li>
-            {loggedIn ? (
+            {TokenService.hasAuthToken() ? (
               <Link
-                to="/signin"
+                to="/sign-in"
                 onClick={() => {
-                  this.context.logIn();
+                  TokenService.clearAuthToken();
                 }}
               >
                 Sign-Out
