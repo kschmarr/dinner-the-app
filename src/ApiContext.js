@@ -3,7 +3,7 @@ import React from "react";
 export default React.createContext({
   loggedIn: false,
   currentMealIndex: 0,
-  currentMeal: "",
+  currentMeal: {},
   userid: 0,
   short: [],
   medium: [],

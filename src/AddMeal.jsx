@@ -20,12 +20,11 @@ export default class AddMeal extends Component {
   handleSubmitMeal = e => {
     e.preventDefault();
     const { meal } = this.state;
-    const regularity = e.target.regularity.value;
+    const rotation = e.target.rotation.value;
     const userid = this.context.userid;
-    console.log(this.state.meal, regularity, userid);
     const newMeal = {
       meal: meal,
-      rotation: regularity,
+      rotation: rotation,
       userid: userid
     };
     fetch(`${config.API_ENDPOINT}/meals`, {
@@ -40,8 +39,7 @@ export default class AddMeal extends Component {
         return res.json();
       })
       .then(data => {
-        console.log(data);
-        this.context.addMeal(meal, regularity);
+        this.context.addMeal(meal, rotation);
       })
       .then(data => {
         this.props.history.push("/list");
@@ -75,7 +73,6 @@ export default class AddMeal extends Component {
       nameValid: !hasError,
       meal: fieldValue
     });
-    console.log(this.state.meal);
   }
 
   render() {
@@ -107,12 +104,12 @@ export default class AddMeal extends Component {
             />
           </div>
 
-          <div id="regularityDiv">
-            <label htmlFor="regularity">Regularity:</label>
-            <select id="regularity" name="regularity">
-              <option value="short">Regularly</option>
-              <option value="medium">Sparingly</option>
-              <option value="long">Rarely</option>
+          <div id="rotationDiv">
+            <label htmlFor="rotation">Rotation:</label>
+            <select id="rotation" name="rotation">
+              <option value="short">Short</option>
+              <option value="medium">Medium</option>
+              <option value="long">Long</option>
             </select>
           </div>
           <button

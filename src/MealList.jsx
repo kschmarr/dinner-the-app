@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 
 export default class MealList extends Component {
   static contextType = ApiContext;
+  componentDidMount() {
+    this.context.getAllMeals();
+  }
 
   render() {
     const { short, medium, long } = this.context;
@@ -20,11 +23,11 @@ export default class MealList extends Component {
             <li key={i}>
               <Link
                 to={{
-                  pathname: `/edit-meal/${meal}`,
+                  pathname: `/edit-meal/${meal.meal}`,
                   state: { meal }
                 }}
               >
-                {meal}
+                {meal.meal}
               </Link>
             </li>
           ))}
@@ -35,11 +38,11 @@ export default class MealList extends Component {
             <li key={i}>
               <Link
                 to={{
-                  pathname: `/edit-meal/${meal}`,
+                  pathname: `/edit-meal/${meal.meal}`,
                   state: { meal }
                 }}
               >
-                {meal}
+                {meal.meal}
               </Link>
             </li>
           ))}
@@ -50,11 +53,11 @@ export default class MealList extends Component {
             <li key={i}>
               <Link
                 to={{
-                  pathname: `/edit-meal/${meal}`,
+                  pathname: `/edit-meal/${meal.meal}`,
                   state: { meal }
                 }}
               >
-                {meal}
+                {meal.meal}
               </Link>
             </li>
           ))}

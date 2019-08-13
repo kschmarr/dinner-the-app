@@ -22,7 +22,7 @@ const DinnerApiService = {
       });
   },
 
-  postMeal(meal, regularity) {
+  postMeal(meal, rotation) {
     return fetch(`${config.API_ENDPOINT}/meals`, {
       method: "POST",
       headers: {
@@ -31,7 +31,7 @@ const DinnerApiService = {
       },
       body: JSON.stringify({
         meal,
-        regularity
+        rotation
       })
     }).then(res =>
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()

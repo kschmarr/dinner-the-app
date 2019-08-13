@@ -20,7 +20,7 @@ class App extends Component {
       medium: [],
       long: [],
       currentMealIndex: 0,
-      currentMeal: "",
+      currentMeal: {},
       shortIndex: 0,
       mediumIndex: 0,
       longIndex: 0,
@@ -30,6 +30,7 @@ class App extends Component {
 
   // The pattern for choosing Meals is SMSMSL (currentMealIndex%6 = 0 - 5)
   getAllMeals = () => {
+    this.setState({ short: [], medium: [], long: [] });
     fetch(`${config.API_ENDPOINT}/meals`, {
       headers: { authorization: `basic ${TokenService.getAuthToken()}` }
     })
@@ -40,7 +41,7 @@ class App extends Component {
       .then(meals => {
         meals.forEach(meal => {
           if (meal.userid === this.state.userid) {
-            this.handleAddMeal(meal.meal, meal.rotation);
+            this.handleAddMeal(meal);
           }
         });
       })
@@ -109,10 +110,46 @@ class App extends Component {
     }
   };
   handleNextMeal = () => {
+    const { currentMealIndex, shortIndex, mediumIndex, longIndex } = this.state;
     this.setState({ currentMealIndex: this.state.currentMealIndex + 1 });
     this.handleGetMeal();
+    this.handleUpdateDatabaseIndeces(
+      currentMealIndex,
+      shortIndex,
+      mediumIndex,
+      longIndex
+    );
   };
-  handleAddMeal = (meal, rotation) => {
+  handleUpdateDatabaseIndeces = (
+    currentMealIndex,
+    shortIndex,
+    mediumIndex,
+    longIndex
+  ) => {
+    const { userid } = this.context;
+    const updatedUser = {
+      meal_index: currentMealIndex,
+      short_index: shortIndex,
+      medium_index: mediumIndex,
+      long_index: longIndex
+    };
+    fetch(`${config.API_ENDPOINT}/users/${userid}`, {
+      method: "UPDATE",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(updatedUser)
+    })
+      .then(res => {
+        if (!res.ok) return res.json().then(e => Promise.reject(e));
+        return res.json();
+      })
+      .catch(error => {
+        console.error({ error });
+      });
+  };
+  handleAddMeal = meal => {
+    let { rotation } = meal;
     if (rotation === "short") {
       this.setState({ short: [...this.state.short, meal] });
     } else if (rotation === "medium") {
@@ -121,28 +158,28 @@ class App extends Component {
       this.setState({ long: [...this.state.long, meal] });
     }
   };
-  handleEditMeal = (mealSource, newMealName, newRegularity) => {
-    let oldRegularity = mealSource[0];
-    let oldIndex = mealSource[0];
-    if (oldRegularity === newRegularity) {
-      this.state[oldRegularity].splice(oldIndex, 1, newMealName);
+  handleEditMeal = (mealIndex, rotation, newMealName, newRotation) => {
+    let oldRotation = rotation;
+    let oldIndex = mealIndex;
+    if (oldRotation === newRotation) {
+      this.state[oldRotation].splice(oldIndex, 1, newMealName);
     } else {
-      this.state[oldRegularity].splice(oldIndex, 1);
-      this.handleAddMeal(newMealName, newRegularity);
+      this.state[oldRotation].splice(oldIndex, 1);
+      this.handleAddMeal(newMealName, newRotation);
     }
   };
-  handleDeleteMeal = (meal, regularity) => {
-    if (regularity === "short") {
+  handleDeleteMeal = (mealid, rotation) => {
+    if (rotation === "short") {
       this.setState({
-        short: [...this.state.short.filter(e => e !== meal)]
+        short: [...this.state.short.filter(e => e !== mealid)]
       });
-    } else if (regularity === "medium") {
+    } else if (rotation === "medium") {
       this.setState({
-        medium: [...this.state.medium.filter(e => e !== meal)]
+        medium: [...this.state.medium.filter(e => e !== mealid)]
       });
-    } else if (regularity === "long") {
+    } else if (rotation === "long") {
       this.setState({
-        long: [...this.state.long.filter(e => e !== meal)]
+        long: [...this.state.long.filter(e => e !== mealid)]
       });
     }
   };
@@ -175,7 +212,7 @@ class App extends Component {
             <Route exact path="/main" component={Main} />
             <Route exact path="/sign-in" component={SignIn} />
             <Route exact path="/add-meal" component={AddMeal} />
-            <Route exact path="/edit-meal/:mealid" component={EditMeal} />
+            <Route exact path="/edit-meal/:meal" component={EditMeal} />
             <Route exact path="/list" component={MealList} />
           </div>
         </Router>
