@@ -17,12 +17,17 @@ export default class Splash extends Component {
           <p>
             Simple. You tell us what you like to eat (or where) and how often
             you want to eat each dish, and we tell you what's for dinner
-            tonight! Let us know if you decided to enjoy our selection or not
-            and we'll offer a new idea next time you ask.
+            tonight! 'How often' means you pick if each meal goes in the Short,
+            Medium, or Long rotation. The pattern for choosing meals is based on
+            the rotation you select for each one. It goes "Short => Medium =>
+            Short => Medium => Short => Long. Let us know once you decide to
+            enjoy that meal by clicking the "NEXT MEAL" button and the app will
+            display the next meal in your sequence. This sequence works best if
+            each rotation has a similar number of meals in its list.
           </p>
         </section>
         <section>
-          <h2>Some meals just aren't a staple</h2>
+          <h2>Some meals just aren't a staple...</h2>
           <p>
             If you decide you want to eat spaghetti and meatballs less often,
             more often, or never (or if you figure out that you spelled it

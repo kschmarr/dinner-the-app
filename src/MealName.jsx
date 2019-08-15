@@ -5,14 +5,19 @@ export default class MealName extends Component {
   static contextType = ApiContext;
 
   render() {
-    const { currentMeal } = this.context;
+    let { currentMeal } = this.context;
     return (
       <>
-        <h2>
-          {currentMeal.meal ||
-            "Welcome to the main event! Click 'Next Meal' to cycle through your meals."}
+        <h2 className="mealName">
+          {currentMeal === undefined
+            ? `Welcome to the main event! Click 'Next Meal' to see what's for dinner.`
+            : currentMeal.meal}
         </h2>
-        <h3>Rotation:{currentMeal.rotation}</h3>
+        {currentMeal === undefined ? (
+          <></>
+        ) : (
+          <h2 className="rotation">Rotation:{currentMeal.rotation}</h2>
+        )}
       </>
     );
   }

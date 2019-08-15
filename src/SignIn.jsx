@@ -21,9 +21,9 @@ export default class SignIn extends Component {
       signup: false
     };
   }
-  handleFormSwitch() {
+  handleFormSwitch = () => {
     this.setState({ signup: !this.state.signup });
-  }
+  };
   handleSubmit = ev => {
     ev.preventDefault();
     const username = ev.target.username.value.toLowerCase().trim();
@@ -55,11 +55,14 @@ export default class SignIn extends Component {
         if (!res.ok) return res.json().then(e => Promise.reject(e));
         return res.json();
       })
+      // .then(data => {
+      //   this.context.addUser(username, token);
+      // })
       .then(data => {
-        this.context.addUser(username, token);
-      })
-      .then(data => {
-        this.handleSubmit();
+        TokenService.saveAuthToken(token);
+        this.context.getUserId(token);
+        this.context.getAllMeals();
+        this.props.history.push("/main");
         return data;
       })
 
@@ -67,7 +70,7 @@ export default class SignIn extends Component {
         console.error({ error });
       });
   };
-  validateName(fieldValue) {
+  validateName = fieldValue => {
     const fieldErrors = { ...this.state.validationMessages };
     let hasError = false;
     fieldValue = fieldValue.trim();
@@ -89,8 +92,8 @@ export default class SignIn extends Component {
       nameValid: !hasError,
       name: fieldValue
     });
-  }
-  validatePasswords(pass2, fieldValue) {
+  };
+  validatePasswords = (pass2, fieldValue) => {
     const fieldErrors = { ...this.state.validationMessages };
     let hasError = false;
     fieldValue = fieldValue.trim();
@@ -117,7 +120,7 @@ export default class SignIn extends Component {
         pass: fieldValue
       });
     }
-  }
+  };
 
   render() {
     if (this.state.signup) {
@@ -184,7 +187,7 @@ export default class SignIn extends Component {
             <button
               type="button"
               className="submitBtn"
-              // onClick={this.handleFormSwitch()}
+              onClick={this.handleFormSwitch}
             >
               I don't need to Sign-Up
             </button>
@@ -236,7 +239,7 @@ export default class SignIn extends Component {
             <button
               type="button"
               className="submitBtn"
-              // onClick={this.handleFormSwitch()}
+              onClick={this.handleFormSwitch}
             >
               I need to Sign-Up
             </button>

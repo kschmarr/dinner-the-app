@@ -18,6 +18,7 @@ export default class EditMeal extends Component {
     };
   }
   static contextType = ApiContext;
+
   validateName(fieldValue) {
     const fieldErrors = { ...this.state.validationMessages };
     let hasError = false;
@@ -42,19 +43,19 @@ export default class EditMeal extends Component {
     });
   }
   handleSubmitMeal = e => {
-    let { meal, mealid, rotation } = this.props.location.state.meal;
+    let { mealid, rotation } = this.props.location.state.meal;
     e.preventDefault();
     let mealName = e.target.mealName.value;
     let newRotation = e.target.rotation.value;
-    let mealIndex = this.findMeal(mealid, rotation);
+    let mealIndex = this.context.findMeal(mealid, rotation);
     const userid = this.context.userid;
     const newMeal = {
       meal: mealName,
       rotation: newRotation,
       userid: userid
     };
-    fetch(`${config.API_ENDPOINT}/edit-meal/${meal}`, {
-      method: "UPDATE",
+    fetch(`${config.API_ENDPOINT}/edit-meal/${mealid}`, {
+      method: "PATCH",
       headers: {
         "content-type": "application/json"
       },
@@ -65,6 +66,7 @@ export default class EditMeal extends Component {
         return res.json();
       })
       .then(data => {
+        console.log(data);
         this.context.editMeal(mealIndex, rotation, mealName, newRotation);
       })
       .then(data => {
@@ -99,34 +101,6 @@ export default class EditMeal extends Component {
       .catch(error => {
         console.error({ error });
       });
-  };
-
-  findMeal = (mealid, rotation) => {
-    //is there a way to use rotation as a variable to choose the array to search?
-    let location;
-    const { short, medium, long } = this.context;
-    if (rotation === "short") {
-      short.forEach((item, index) => {
-        if (item.mealid === mealid) {
-          location = index;
-        }
-      });
-    }
-    if (rotation === "medium") {
-      medium.forEach((item, index) => {
-        if (item.mealid === mealid) {
-          location = index;
-        }
-      });
-    }
-    if (rotation === "long") {
-      long.forEach((item, index) => {
-        if (item.mealid === mealid) {
-          location = index;
-        }
-      });
-    }
-    return location;
   };
 
   render() {

@@ -5,13 +5,11 @@ import Card from "./Card";
 import ApiContext from "./ApiContext";
 class App extends Component {
   static contextType = ApiContext;
-  // componentDidMount() {
-  //   this.context.getMeal();
-  // }
+
   render() {
     return (
-      <div className="App">
-        <Nav />
+      <div className="main">
+        <Nav location={this.props.location} />
         <Title />
         <Card />
       </div>
