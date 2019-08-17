@@ -20,7 +20,7 @@ export default React.createContext({
   findMeal: () => {},
   deleteMeal: () => {},
   addMeal: () => {},
+  setUser: () => {},
   editMeal: () => {},
-  getUserId: () => {},
   logIn: () => {}
 });

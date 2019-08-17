@@ -31,11 +31,9 @@ class App extends Component {
       mediumIndex: 0,
       longIndex: 0,
       userid: 0
-      // mealCount: 0
     };
   }
 
-  // The pattern for choosing Meals is SMSMSL (currentMealIndex%6 = 0 - 5)
   getAllMeals = () => {
     this.setState({ short: [], medium: [], long: [] });
     fetch(`${config.API_ENDPOINT}/meals`, {
@@ -56,30 +54,6 @@ class App extends Component {
         console.error({ error });
       });
   };
-  getUserId = token => {
-    fetch(`${config.API_ENDPOINT}/users`, {
-      headers: { authorization: `basic ${token}` }
-    })
-      .then(res => {
-        if (!res.ok) return res.json().then(e => Promise.reject(e));
-        return res.json();
-      })
-      .then(users => {
-        let user = users.filter(
-          user => user.token === `${TokenService.getAuthToken()}`
-        )[0];
-        this.setState({
-          userid: user.userid,
-          currentMealIndex: parseInt(user.meal_index),
-          shortIndex: parseInt(user.short_index),
-          mediumIndex: parseInt(user.medium_index),
-          longIndex: parseInt(user.long_index)
-        });
-      })
-      .catch(error => {
-        console.error({ error });
-      });
-  };
 
   handleGetMeal = () => {
     let {
@@ -92,15 +66,6 @@ class App extends Component {
       long
     } = this.state;
 
-    if (shortIndex > short.length) {
-      this.setState({ shortIndex: 1 });
-    }
-    if (mediumIndex > medium.length) {
-      this.setState({ mediumIndex: 1 });
-    }
-    if (longIndex > long.length) {
-      this.setState({ longIndex: 1 });
-    }
     if (
       currentMealIndex % 6 === 1 ||
       currentMealIndex % 6 === 3 ||
@@ -113,46 +78,21 @@ class App extends Component {
       this.setState({ currentMeal: long[longIndex - 1] });
     }
   };
-  // handleNextMeal = () => {
-  //   console.log(this.state.currentMealIndex);
 
-  //   this.setState({ currentMealIndex: this.state.currentMealIndex + 1 });
-  //   setTimeout(function() {
-  //     this.handleUpdates();
-  //   }, 1000);
-  // };
   handleNextMeal = () => {
-    const { currentMealIndex, shortIndex, mediumIndex, longIndex } = this.state;
-    this.setState({ currentMealIndex: currentMealIndex + 1 });
-
-    this.handleUpdateDatabaseIndeces(
-      currentMealIndex,
-      shortIndex,
-      mediumIndex,
-      longIndex
-    );
-    this.handleUpdateStateIndeces(
-      currentMealIndex,
-      shortIndex,
-      mediumIndex,
-      longIndex
-    );
-
     this.handleUpdateDateLastEaten();
-    this.handleGetMeal();
-    console.log(currentMealIndex);
+
+    this.handleUpdateDatabaseIndeces();
   };
 
   handleUpdateDateLastEaten = () => {
-    let mealid;
-    if (this.state.currentMeal === undefined) {
-      mealid = "1";
-    } else {
-      mealid = this.state.currentMeal.mealid;
-    }
+    let { mealid, rotation, userid } = this.state.currentMeal;
+    let mealIndex = this.handleFindMeal(mealid, rotation);
+
     const newDate = new Date();
     const newMeal = {
-      date_last_eaten: newDate
+      date_last_eaten: newDate,
+      userid: userid
     };
     fetch(`${config.API_ENDPOINT}/edit-meal/${mealid}`, {
       method: "PATCH",
@@ -165,46 +105,78 @@ class App extends Component {
         if (!res.ok) return res.json().then(e => Promise.reject(e));
         return res.json();
       })
-      .then(res => {
-        console.log(res);
+      .then(meal => {
+        this.state[rotation].splice(mealIndex, 1, meal);
       })
       .catch(error => {
         console.error({ error });
       });
   };
 
-  handleUpdateStateIndeces = (
-    currentMealIndex,
-    shortIndex,
-    mediumIndex,
-    longIndex
-  ) => {
+  handleUpdateStateIndeces = newIndeces => {
+    this.setState({
+      currentMealIndex: newIndeces.meal_index,
+      shortIndex: newIndeces.short_index,
+      mediumIndex: newIndeces.medium_index,
+      longIndex: newIndeces.long_index
+    });
+    this.handleGetMeal();
+  };
+
+  handleSetUser = user => {
+    this.setState({
+      currentMealIndex: user.meal_index,
+      shortIndex: user.short_index,
+      mediumIndex: user.medium_index,
+      longIndex: user.long_index,
+      userid: user.userid.toString()
+    });
+    this.handleGetMeal();
+  };
+
+  handleUpdateDatabaseIndeces = () => {
+    let {
+      userid,
+      currentMealIndex,
+      shortIndex,
+      mediumIndex,
+      longIndex,
+      short,
+      medium,
+      long
+    } = this.state;
+
+    currentMealIndex = currentMealIndex + 1;
+
     if (
       currentMealIndex % 6 === 1 ||
       currentMealIndex % 6 === 3 ||
       currentMealIndex % 6 === 5
     ) {
-      this.setState({ shortIndex: shortIndex + 1 });
+      shortIndex = shortIndex + 1;
     } else if (currentMealIndex % 6 === 2 || currentMealIndex % 6 === 4) {
-      this.setState({ mediumIndex: mediumIndex + 1 });
+      mediumIndex = mediumIndex + 1;
     } else if (currentMealIndex % 6 === 0) {
-      this.setState({ longIndex: longIndex + 1 });
+      longIndex = longIndex + 1;
     }
-  };
 
-  handleUpdateDatabaseIndeces = (
-    currentMealIndex,
-    shortIndex,
-    mediumIndex,
-    longIndex
-  ) => {
-    const { userid } = this.state;
+    if (shortIndex > short.length) {
+      shortIndex = 1;
+    }
+    if (mediumIndex > medium.length) {
+      mediumIndex = 1;
+    }
+    if (longIndex > long.length) {
+      longIndex = 1;
+    }
+
     const updatedUser = {
       meal_index: currentMealIndex,
       short_index: shortIndex,
       medium_index: mediumIndex,
       long_index: longIndex
     };
+
     fetch(`${config.API_ENDPOINT}/users/${userid}`, {
       method: "PATCH",
       headers: {
@@ -216,11 +188,14 @@ class App extends Component {
         if (!res.ok) return res.json().then(e => Promise.reject(e));
         return res.json();
       })
-      .then(data => {})
+      .then(newIndeces => {
+        this.handleUpdateStateIndeces(newIndeces);
+      })
       .catch(error => {
         console.error({ error });
       });
   };
+
   handleAddMeal = meal => {
     let { rotation } = meal;
 
@@ -231,24 +206,20 @@ class App extends Component {
     } else if (rotation === "long") {
       this.setState({ long: [...this.state.long, meal] });
     }
-    // this.setState({ mealCount: this.state.mealCount + 1 });
   };
 
-  handleEditMeal = (mealIndex, rotation, newMealName, newRotation) => {
-    let oldRotation = rotation;
-    let oldIndex = mealIndex;
+  handleEditMeal = (oldIndex, oldRotation, newMeal, newRotation) => {
     if (oldRotation === newRotation) {
-      this.state[oldRotation].splice(oldIndex, 1, newMealName);
+      this.state[oldRotation].splice(oldIndex, 1, newMeal);
     } else {
       this.state[oldRotation].splice(oldIndex, 1);
-      this.handleAddMeal(newMealName, newRotation);
+      this.handleAddMeal(newMeal);
     }
   };
-
   handleFindMeal = (mealid, rotation) => {
     //is there a way to use rotation as a variable to choose the array to search?
     let location;
-    const { short, medium, long } = this.context;
+    const { short, medium, long } = this.state;
     if (rotation === "short") {
       short.forEach((item, index) => {
         if (item.mealid === mealid) {
@@ -276,24 +247,21 @@ class App extends Component {
   handleDeleteMeal = (mealid, rotation) => {
     if (rotation === "short") {
       this.setState({
-        short: [...this.state.short.filter(e => e !== mealid)]
+        short: [...this.state.short.filter(e => e.mealid !== mealid)]
       });
     } else if (rotation === "medium") {
       this.setState({
-        medium: [...this.state.medium.filter(e => e !== mealid)]
+        medium: [...this.state.medium.filter(e => e.mealid !== mealid)]
       });
     } else if (rotation === "long") {
       this.setState({
-        long: [...this.state.long.filter(e => e !== mealid)]
+        long: [...this.state.long.filter(e => e.mealid !== mealid)]
       });
     }
   };
   handleLogIn = () => {
     this.setState({ loggedIn: this.state.loggedIn === true ? false : true });
   };
-  componentDidMount() {
-    this.getAllMeals();
-  }
 
   render() {
     const value = {
@@ -309,8 +277,8 @@ class App extends Component {
       findMeal: this.handleFindMeal,
       addMeal: this.handleAddMeal,
       editMeal: this.handleEditMeal,
+      setUser: this.handleSetUser,
       getAllMeals: this.getAllMeals,
-      getUserId: this.getUserId,
       logIn: this.handleLogIn
     };
     return (

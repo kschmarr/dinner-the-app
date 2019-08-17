@@ -6,9 +6,6 @@ import { Link } from "react-router-dom";
 
 export default class MealList extends Component {
   static contextType = ApiContext;
-  componentDidMount() {
-    this.context.getAllMeals();
-  }
 
   render() {
     const { short, medium, long } = this.context;
@@ -17,7 +14,7 @@ export default class MealList extends Component {
       <>
         <Nav />
         <Title />
-        <h2>Short Rotation</h2>
+        <h2 className="rotationLists">Short Rotation</h2>
         <ul>
           {short.map((meal, i) => (
             <li key={i}>
@@ -32,8 +29,8 @@ export default class MealList extends Component {
             </li>
           ))}
         </ul>
-        <h2>Medium Rotation</h2>
-        <ul>
+        <h2 className="rotationLists">Medium Rotation</h2>
+        <ul className="mediumList ">
           {medium.map((meal, i) => (
             <li key={i}>
               <Link
@@ -47,8 +44,8 @@ export default class MealList extends Component {
             </li>
           ))}
         </ul>
-        <h2>Long Rotation</h2>
-        <ul>
+        <h2 className="rotationLists ">Long Rotation</h2>
+        <ul className="longList ">
           {long.map((meal, i) => (
             <li key={i}>
               <Link

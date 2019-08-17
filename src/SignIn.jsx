@@ -21,20 +21,49 @@ export default class SignIn extends Component {
       signup: false
     };
   }
+
   handleFormSwitch = () => {
     this.setState({ signup: !this.state.signup });
   };
-  handleSubmit = ev => {
+
+  handleSignIn = ev => {
     ev.preventDefault();
     const username = ev.target.username.value.toLowerCase().trim();
-    const password = ev.target.password.value;
-    TokenService.saveAuthToken(
-      TokenService.makeBasicAuthToken(username, password)
-    );
-    this.context.getUserId(TokenService.getAuthToken());
-    this.context.getAllMeals();
-    this.props.history.push("/main");
+    const password = ev.target.password.value.trim();
+    const token = TokenService.makeBasicAuthToken(username, password);
+    fetch(`${config.API_ENDPOINT}/users`, {
+      headers: { authorization: `basic ${token}` }
+    })
+      .then(res => {
+        if (!res.ok) return res.json().then(e => Promise.reject(e));
+        return res.json();
+      })
+      .then(users => {
+        let user = users.filter(user => user.token === token)[0];
+        if (!user) {
+          console.log("User doesn't exist/Wrong credentials");
+          alert("NONE SHALL PASS!! (Bad credentials)");
+        }
+        this.context.setUser(user);
+        return user;
+      })
+      .then(user => {
+        TokenService.saveAuthToken(token);
+        return user;
+      })
+      .then(user => {
+        this.context.getAllMeals();
+        return user;
+      })
+      .then(user => {
+        this.props.history.push("/main");
+        return user;
+      })
+      .catch(error => {
+        console.error({ error });
+      });
   };
+
   handleSignup = ev => {
     ev.preventDefault();
     const username = ev.target.username.value.toLowerCase().trim();
@@ -55,13 +84,10 @@ export default class SignIn extends Component {
         if (!res.ok) return res.json().then(e => Promise.reject(e));
         return res.json();
       })
-      // .then(data => {
-      //   this.context.addUser(username, token);
-      // })
+
       .then(data => {
         TokenService.saveAuthToken(token);
         this.context.getUserId(token);
-        this.context.getAllMeals();
         this.props.history.push("/main");
         return data;
       })
@@ -70,6 +96,7 @@ export default class SignIn extends Component {
         console.error({ error });
       });
   };
+
   validateName = fieldValue => {
     const fieldErrors = { ...this.state.validationMessages };
     let hasError = false;
@@ -93,6 +120,7 @@ export default class SignIn extends Component {
       name: fieldValue
     });
   };
+
   validatePasswords = (pass2, fieldValue) => {
     const fieldErrors = { ...this.state.validationMessages };
     let hasError = false;
@@ -203,7 +231,7 @@ export default class SignIn extends Component {
           </div>
           <form
             onSubmit={e => {
-              this.handleSubmit(e);
+              this.handleSignIn(e);
             }}
           >
             <div id="usernameDiv" className="label-container">

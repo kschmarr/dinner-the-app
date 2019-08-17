@@ -5,11 +5,15 @@ import TokenService from "./token-service";
 
 export default class Nav extends Component {
   static contextType = ApiContext;
-  // static defaultProps = {
-  //   location: { pathname: "/notmain" }
-  // };
+
   showLink = (path, linkText) => {
     if (window.location.pathname !== path) {
+      return (
+        <li className="currentPage">
+          <Link to={path}>{linkText}</Link>
+        </li>
+      );
+    } else {
       return (
         <li>
           <Link to={path}>{linkText}</Link>

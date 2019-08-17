@@ -39,7 +39,7 @@ export default class AddMeal extends Component {
         return res.json();
       })
       .then(data => {
-        this.context.addMeal(meal, rotation);
+        this.context.addMeal(data);
       })
       .then(data => {
         this.props.history.push("/list");

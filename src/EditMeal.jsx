@@ -66,8 +66,7 @@ export default class EditMeal extends Component {
         return res.json();
       })
       .then(data => {
-        console.log(data);
-        this.context.editMeal(mealIndex, rotation, mealName, newRotation);
+        this.context.editMeal(mealIndex, rotation, data, data.rotation);
       })
       .then(data => {
         this.props.history.push("/list");
