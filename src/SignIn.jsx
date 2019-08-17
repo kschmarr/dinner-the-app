@@ -41,7 +41,6 @@ export default class SignIn extends Component {
       .then(users => {
         let user = users.filter(user => user.token === token)[0];
         if (!user) {
-          console.log("User doesn't exist/Wrong credentials");
           alert("NONE SHALL PASS!! (Bad credentials)");
         }
         this.context.setUser(user);
