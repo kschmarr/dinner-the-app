@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "alias": "dinner-the-app",
+  "name": "dinner-the-app",
+  "routes": [
+    {
+      "src": "^/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": ".*",
+      "dest": "/index.html"
+    }
+  ]
+}
