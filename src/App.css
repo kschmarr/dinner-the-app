@@ -133,6 +133,7 @@ nav {
 
 .App > section {
   width: 80%;
+  margin: 0 auto;
 }
 
 .label-container {
