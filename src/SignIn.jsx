@@ -28,8 +28,8 @@ export default class SignIn extends Component {
 
   handleSignIn = ev => {
     ev.preventDefault();
-    const username = ev.target.username.value.toLowerCase().trim();
-    const password = ev.target.password.value.trim();
+    const username = this.state.name.toLowerCase();
+    const password = this.state.pass;
     const token = TokenService.makeBasicAuthToken(username, password);
     fetch(`${config.API_ENDPOINT}/users`, {
       headers: { authorization: `basic ${token}` }
@@ -65,8 +65,8 @@ export default class SignIn extends Component {
 
   handleSignup = ev => {
     ev.preventDefault();
-    const username = ev.target.username.value.toLowerCase().trim();
-    const password = ev.target.password.value.trim();
+    const username = this.state.name.toLowerCase();
+    const password = this.state.pass;
     const token = TokenService.makeBasicAuthToken(username, password);
     const newUser = {
       username: username,
@@ -85,8 +85,8 @@ export default class SignIn extends Component {
       })
 
       .then(data => {
+        this.context.setUser(data);
         TokenService.saveAuthToken(token);
-        this.context.getUserId(token);
         this.props.history.push("/main");
         return data;
       })
@@ -96,16 +96,47 @@ export default class SignIn extends Component {
       });
   };
 
+  handleSignInPass = e => {
+    this.setState({ pass: e });
+  };
+
+  handleSignUpPass = e => {
+    const fieldErrors = { ...this.state.validationMessages };
+    let hasError = true;
+
+    if (e.length !== e.trim().length) {
+      fieldErrors.pass = "Password cannot contain spaces";
+      hasError = true;
+    } else {
+      if (e.length === 0) {
+        fieldErrors.pass = "Password is required";
+        hasError = true;
+      } else {
+        if (e.length < 3) {
+          hasError = true;
+          fieldErrors.pass = "Password must be at least 3 characters long";
+        } else {
+          fieldErrors.name = "";
+        }
+      }
+    }
+    this.setState({
+      validationMessages: fieldErrors,
+      pass: e.trim(),
+      passValid: !hasError
+    });
+  };
+
   validateName = fieldValue => {
     const fieldErrors = { ...this.state.validationMessages };
     let hasError = false;
     fieldValue = fieldValue.trim();
     if (fieldValue.length === 0) {
-      fieldErrors.name = "UserName is required";
+      fieldErrors.name = "Username is required";
       hasError = true;
     } else {
       if (fieldValue.length < 3) {
-        fieldErrors.name = "UserName must be at least 3 characters long";
+        fieldErrors.name = "Username must be at least 3 characters long";
         hasError = true;
       } else {
         fieldErrors.name = "";
@@ -120,33 +151,37 @@ export default class SignIn extends Component {
     });
   };
 
-  validatePasswords = (pass2, fieldValue) => {
+  validatePasswords = pass2 => {
     const fieldErrors = { ...this.state.validationMessages };
-    let hasError = false;
-    fieldValue = fieldValue.trim();
-    if (fieldValue.length === 0) {
-      fieldErrors.pass = "Password is required";
+    let hasError = true;
+    let pass1 = this.state.pass;
+    // if (pass2.length !== pass2.trim().length) {
+    //   fieldErrors.pass = "Password cannot contain spaces";
+    //   hasError = true;
+    // } else {
+    //   if (pass2.length === 0) {
+    //     fieldErrors.pass = "Password is required";
+    //     hasError = true;
+    //   } else {
+    //     if (pass2.length < 3) {
+    //       fieldErrors.pass = "Password must be at least 3 characters long";
+    //       hasError = true;
+    //     } else {
+    if (pass1 !== pass2) {
+      fieldErrors.pass = "Passwords must match";
       hasError = true;
     } else {
-      if (fieldValue.length < 3) {
-        fieldErrors.pass = "Password must be at least 3 characters long";
-        hasError = true;
-      } else {
-        if (fieldValue !== pass2) {
-          fieldErrors.pass = "Passwords must match";
-          hasError = true;
-        } else {
-          fieldErrors.pass = "";
-          hasError = false;
-        }
-      }
-
-      this.setState({
-        validationMessages: fieldErrors,
-        passValid: !hasError,
-        pass: fieldValue
-      });
+      fieldErrors.pass = "";
+      hasError = false;
     }
+    // }
+    // }
+    // }
+
+    this.setState({
+      validationMessages: fieldErrors,
+      passValid: !hasError
+    });
   };
 
   render() {
@@ -183,6 +218,8 @@ export default class SignIn extends Component {
                 id="password"
                 ref="password"
                 placeholder="Password"
+                onChange={e => this.handleSignUpPass(e.target.value)}
+                value={this.state.pass}
                 required
               />
               <br />
@@ -191,12 +228,7 @@ export default class SignIn extends Component {
                 type="password"
                 id="password2"
                 placeholder="Confirm Password"
-                onChange={e =>
-                  this.validatePasswords(
-                    e.target.value,
-                    this.refs.password.value
-                  )
-                }
+                onChange={e => this.validatePasswords(e.target.value)}
                 required
               />
             </div>
@@ -207,7 +239,7 @@ export default class SignIn extends Component {
             <button
               type="submit"
               className="submitBtn"
-              disabled={!this.state.nameValid && !this.state.passValid}
+              disabled={!this.state.nameValid || !this.state.passValid}
             >
               Sign-Up
             </button>
@@ -253,6 +285,8 @@ export default class SignIn extends Component {
                 type="password"
                 id="password"
                 placeholder="Password"
+                onChange={e => this.handleSignInPass(e.target.value)}
+                value={this.state.pass}
                 required
               />
             </div>

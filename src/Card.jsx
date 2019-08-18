@@ -77,9 +77,14 @@ export default class Card extends Component {
               onClick={() => {
                 this.context.getMeal();
               }}
+              disabled={lowMealCount}
             >
               See Current Meal
             </button>
+            <ValidationError
+              hasError={lowMealCount}
+              message="Must have at least one meal in each rotation for functionality. Check out 'See All Meals' link in navbar."
+            />
           </>
         )}
       </div>
