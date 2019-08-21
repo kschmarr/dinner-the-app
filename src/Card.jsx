@@ -19,7 +19,7 @@ export default class Card extends Component {
 
     let convertedDate;
     currentMeal === undefined
-      ? (convertedDate = "2001-01-01")
+      ? (convertedDate = "1-01-01")
       : (convertedDate = this.convert(currentMeal.date_last_eaten));
     const lowMealCount =
       short.length < 1 || medium.length < 1 || long.length < 1;
@@ -38,7 +38,7 @@ export default class Card extends Component {
             </div>
             <div>
               <h1 className="dateEaten">Last eaten on: </h1>
-              {convertedDate === "2001-01-01" ? (
+              {convertedDate === "1-01-01" ? (
                 <h2>It's your first time eating this meal</h2>
               ) : (
                 <h2 className="ateDate">{convertedDate}</h2>
@@ -55,7 +55,7 @@ export default class Card extends Component {
             </button>
             <ValidationError
               hasError={lowMealCount}
-              message="Must have at least one meal in each rotation for functionality. Check out 'See All Meals' link in navbar."
+              message="Must have at least one meal in each rotation for functionality. Follow 'Add a Meal' link in navbar to save your meals."
             />
             <Link
               to={{
@@ -68,9 +68,16 @@ export default class Card extends Component {
           </div>
         ) : (
           <>
-            <h2 className="welcomeText">
-              Welcome to the main event! Click 'See Current Meal' to continue.
-            </h2>
+            {lowMealCount ? (
+              <h2 className="welcomeText">
+                Must have at least one meal in each rotation for functionality.
+                Follow 'Add a Meal' link in navbar to save your meals.
+              </h2>
+            ) : (
+              <h2 className="welcomeText">
+                Welcome to the main event! Click 'See Current Meal' to continue.
+              </h2>
+            )}
 
             <button
               className="submitBtn"
@@ -81,10 +88,6 @@ export default class Card extends Component {
             >
               See Current Meal
             </button>
-            <ValidationError
-              hasError={lowMealCount}
-              message="Must have at least one meal in each rotation for functionality. Check out 'See All Meals' link in navbar."
-            />
           </>
         )}
       </div>

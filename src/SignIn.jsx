@@ -189,8 +189,10 @@ export default class SignIn extends Component {
       return (
         <>
           <Title />
-          <div>
-            <h1>Please sign up here to see, add, and edit your meals.</h1>
+          <div className="page-message">
+            <h1 className="page-message">
+              Please sign up here to see, add, and edit your meals.
+            </h1>
           </div>
           <form
             onSubmit={e => {
@@ -257,8 +259,10 @@ export default class SignIn extends Component {
       return (
         <>
           <Title />
-          <div>
-            <h1>Please sign in here to see, add, and edit your meals.</h1>
+          <div className="page-message">
+            <h1 className="page-message">
+              Please sign in here to see, add, and edit your meals.
+            </h1>
           </div>
           <form
             onSubmit={e => {

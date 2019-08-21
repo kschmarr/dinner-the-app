@@ -95,6 +95,10 @@ nav {
   border-top-right-radius: 50%;
 }
 
+.sign-in-message {
+  width: 60%;
+}
+
 .rotationLists {
   text-decoration: underline;
 }
@@ -105,6 +109,8 @@ nav {
     rgba(255, 255, 255, 1) 55%,
     rgba(245, 245, 245, 1) 100%
   );
+  width: 80%;
+  margin: 0 auto;
 }
 
 .title {
@@ -115,20 +121,23 @@ nav {
     rgba(255, 255, 255, 1) 70%,
     rgba(245, 245, 245, 0.48363095238095233) 100%
   );
-  width: 90%;
+  width: 70%;
   margin: 4% auto;
 }
 
 .App {
   text-align: center;
   width: 80vw;
-  /* height: 70vh; */
   border: solid 1px black;
   border-radius: 25%;
   margin: 10vh auto;
   box-shadow: 0 7px 4px #777, 0 0 10px rgba(0, 0, 0, 0.5);
   padding: 2% 0 5%;
   background-color: #f5f5f5;
+}
+
+.App > * {
+  margin: 0 auto;
 }
 
 .App > section {
@@ -200,15 +209,6 @@ nav {
   grid-area: dateEaten;
 }
 
-/* .container {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows: auto;
-  grid-template-areas:
-    "mealName mealName"
-    "rotation rotationSpan"
-    "dateEaten ateDate";
-} */
 button > a {
   text-decoration: none;
   color: black;
@@ -225,4 +225,34 @@ button > a:visited {
 }
 .welcomeText {
   display: block;
+}
+@media screen and (max-width: 720px) {
+  .App {
+    width: 90vw;
+    margin: 5vh auto;
+    padding: 8% 0;
+  }
+  .label-container {
+    margin: 30px auto 8px;
+    padding: 5px 8px;
+    width: 200px;
+  }
+  .label-container input {
+    font-size: 16px;
+    width: 180px;
+  }
+  .label-container label {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  div.error {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .welcomeText {
+    width: 80%;
+    margin: 0 auto;
+  }
 }

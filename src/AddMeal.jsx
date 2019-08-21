@@ -80,8 +80,8 @@ export default class AddMeal extends Component {
       <>
         <Nav />
         <Title />
-        <div>
-          <h1>Please add your meals here.</h1>
+        <div className="page-message">
+          <h1 className="page-message">Please add your meals here.</h1>
         </div>
         <form
           onSubmit={e => {
