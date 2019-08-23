@@ -87,6 +87,7 @@ nav {
     rgba(245, 245, 245, 1) 100%
   );
   width: 80%;
+  margin: 0 auto;
   border-top-left-radius: 50%;
   border-top-right-radius: 50%;
 }
