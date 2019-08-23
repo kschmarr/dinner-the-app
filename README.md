@@ -1,68 +1,29 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Dinner. The App.
 
-## Available Scripts
+## Link to live app
 
-In the project directory, you can run:
+To see the app in action, you can visit:
+[Dinner-the-app](https://dinner-the-app.now.sh)
 
-### `npm start`
+### Documentation
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This is where info about the fetch calls go.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Screenshots
 
-### `npm test`
+Start by navigating to the site:
+<img src="images/address.png">
+Create a new user by clicking on the "I need to Sign Up" button and filling in the form:
+<img src="images/login.png">
+Add at least one meal to each rotation list and you will be able to view your current meal:
+<img src="images/meal.png">
+When you click "Next Meal" that meal will be sent to the back of the line. The next time it comes up in your rotation, today's date will be displayed as the 'Last eaten on:' date.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Summary
 
-### `npm run build`
+If you cook a lot of different things then this app keeps you from forgetting any yummy meals you enjoy. Just add meal names into the database and the app's algorithm provides you with the next meal you should eat. The meals are divided into three 'rotations'; short, medium, and long. The pattern that the app uses to pull meals from each list is S -> M -> S -> M -> S -> L. The app works best if you have a similar number of meals in each rotation. When you view the current meal, the date it was last eaten on is displayed as well. Meal names and rotation lists can be edited easily, and the full list of meals can be viewed.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Tech used
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Frontend: Javascript, CSS, React.js
+Backend: Node.js, Express, PostgreSQL
