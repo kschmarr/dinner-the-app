@@ -217,7 +217,6 @@ class App extends Component {
     }
   };
   handleFindMeal = (mealid, rotation) => {
-    //is there a way to use rotation as a variable to choose the array to search?
     let location;
     const { short, medium, long } = this.state;
     if (rotation === "short") {

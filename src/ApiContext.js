@@ -10,7 +10,6 @@ export default React.createContext({
     rotation: "",
     date_last_eaten: ""
   },
-  // mealCount: 0,
   userid: 0,
   short: [],
   medium: [],

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import MealName from "./MealName";
 import ApiContext from "./ApiContext";
 import { Link } from "react-router-dom";
 import ValidationError from "./ValidationError";
@@ -70,8 +69,16 @@ export default class Card extends Component {
           <>
             {lowMealCount ? (
               <h2 className="welcomeText">
-                Must have at least one meal in each rotation for functionality.
-                Follow 'Add a Meal' link in navbar to save your meals.
+                Must have at least one meal in each rotation for functionality.{" "}
+                <Link
+                  to={{
+                    pathname: `/add-meal`
+                  }}
+                  className="matchText"
+                >
+                  Add more meals
+                </Link>{" "}
+                to get started.
               </h2>
             ) : (
               <h2 className="welcomeText">

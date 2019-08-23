@@ -12,9 +12,7 @@ const DinnerApiService = {
       })
       .then(meals => {
         meals.forEach(meal => {
-          // if (meal.uuid === this.state.uuid) {
           this.handleAddMeal(meal.meal, meal.rotation);
-          // }
         });
       })
       .catch(error => {

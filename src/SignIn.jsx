@@ -155,18 +155,6 @@ export default class SignIn extends Component {
     const fieldErrors = { ...this.state.validationMessages };
     let hasError = true;
     let pass1 = this.state.pass;
-    // if (pass2.length !== pass2.trim().length) {
-    //   fieldErrors.pass = "Password cannot contain spaces";
-    //   hasError = true;
-    // } else {
-    //   if (pass2.length === 0) {
-    //     fieldErrors.pass = "Password is required";
-    //     hasError = true;
-    //   } else {
-    //     if (pass2.length < 3) {
-    //       fieldErrors.pass = "Password must be at least 3 characters long";
-    //       hasError = true;
-    //     } else {
     if (pass1 !== pass2) {
       fieldErrors.pass = "Passwords must match";
       hasError = true;
@@ -174,9 +162,6 @@ export default class SignIn extends Component {
       fieldErrors.pass = "";
       hasError = false;
     }
-    // }
-    // }
-    // }
 
     this.setState({
       validationMessages: fieldErrors,
