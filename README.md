@@ -1,22 +1,19 @@
 # Dinner. The App.
 
-## Link to live app
+## Link to live app: To see the app in action, you can visit: [Dinner-the-app](https://dinner-the-app.now.sh)
 
-To see the app in action, you can visit:
-[Dinner-the-app](https://dinner-the-app.now.sh)
-
-### Documentation
+### API Documentation
 
 This is where info about the fetch calls go.
 
 ### Screenshots
 
-Start by navigating to the site:
-<img src="images/address.png">
-Create a new user by clicking on the "I need to Sign Up" button and filling in the form:
-<img src="images/login.png">
-Add at least one meal to each rotation list and you will be able to view your current meal:
-<img src="images/meal.png">
+Start by navigating to the site:  
+<img src="images/address.png">  
+Create a new user by clicking on the "I need to Sign Up" button and filling in the form:  
+<img src="images/login.png">  
+Add at least one meal to each rotation list and you will be able to view your current meal:  
+<img src="images/meal.png">  
 When you click "Next Meal" that meal will be sent to the back of the line. The next time it comes up in your rotation, today's date will be displayed as the 'Last eaten on:' date.
 
 ### Summary
