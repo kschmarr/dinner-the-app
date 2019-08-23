@@ -1,10 +1,61 @@
 # Dinner. The App.
 
-## Link to live app: To see the app in action, you can visit: [Dinner-the-app](https://dinner-the-app.now.sh)
+## To see the app in action, you can visit: [Dinner-the-app](https://dinner-the-app.now.sh)
 
 ### API Documentation
 
-This is where info about the fetch calls go.
+GET /meals  
+Request body params: none  
+Success response object: {  
+ status: 200,  
+ meals: [Array of meal objects]  
+}  
+Failed response object: {  
+ status: 400,  
+ message: "String"  
+}
+
+POST /meals  
+Request body params: {  
+ meal: "String",  
+ rotation: "String"  
+}  
+Success response object: {  
+ status: 201,  
+ meal: [Array of meal object]  
+}  
+Failed response object: {  
+ status: 400,  
+ message: "String"  
+}
+
+PATCH /edit-meal/:mealid  
+Request body params: {  
+ meal: "String",  
+ rotation: "String",  
+ mealid: "String"  
+}  
+Success response object: {  
+ status: 201,  
+ meal: [Array of meal object]  
+}  
+Failed response object: {  
+ status: 400,  
+ message: "String"  
+}
+
+DELETE /edit-meal/:mealid  
+Request body params: {  
+ mealid: "String"  
+}  
+Success response object: {  
+ status: 200,  
+ mealid: "String"  
+}  
+Failed response object: {  
+ status: 400,  
+ message: "String"  
+}
 
 ### Screenshots
 
