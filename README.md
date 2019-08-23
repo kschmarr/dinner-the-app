@@ -22,5 +22,5 @@ If you cook a lot of different things then this app keeps you from forgetting an
 
 ### Tech used
 
-Frontend: Javascript, CSS, React.js
+Frontend: Javascript, CSS, React.js  
 Backend: Node.js, Express, PostgreSQL
