@@ -13,6 +13,7 @@
     "react-scripts": "3.0.1"
   },
   "scripts": {
+    "test": "react-scripts test",
     "start": "react-scripts start",
     "prebuild": "CI=true react-scripts",
     "build": "react-scripts build",
