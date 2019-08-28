@@ -28,9 +28,16 @@ export default class Splash extends Component {
         <section>
           <h2>Some meals need a tweak...</h2>
           <p>
-            If you decide you want to edit 'spageti and meatbals', you can
-            easily update the meal's name, which rotation list it belongs to, or
-            even delete it entirely.
+            If you decide you want to edit a meal, you can easily update the
+            meal's name, which rotation list it belongs to, or even delete it
+            entirely.
+          </p>
+        </section>
+        <section>
+          <h2>Just want to have a peek? Use these demo credentials:</h2>
+          <p>
+            Username: Kris Password: lucky Please be respectful in how you
+            utilize this public user. Thanks -Management.
           </p>
         </section>
         <Link to="/sign-in">
