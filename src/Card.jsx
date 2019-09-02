@@ -18,7 +18,7 @@ export default class Card extends Component {
 
     let convertedDate;
     currentMeal === undefined
-      ? (convertedDate = "1-01-01")
+      ? (convertedDate = "2001-01-01")
       : (convertedDate = this.convert(currentMeal.date_last_eaten));
     const lowMealCount =
       short.length < 1 || medium.length < 1 || long.length < 1;
@@ -37,7 +37,7 @@ export default class Card extends Component {
             </div>
             <div>
               <h1 className="dateEaten">Last eaten on: </h1>
-              {convertedDate === "1-01-01" ? (
+              {convertedDate === "2001-01-01" ? (
                 <h2>It's your first time eating this meal</h2>
               ) : (
                 <h2 className="ateDate">{convertedDate}</h2>
@@ -82,7 +82,8 @@ export default class Card extends Component {
               </h2>
             ) : (
               <h2 className="welcomeText">
-                Welcome to the main event! Click 'See Current Meal' to continue.
+                Welcome to the main event! Click 'Get My Meal' below to
+                continue.
               </h2>
             )}
 
@@ -93,7 +94,7 @@ export default class Card extends Component {
               }}
               disabled={lowMealCount}
             >
-              See Current Meal
+              Get My Meal
             </button>
           </>
         )}

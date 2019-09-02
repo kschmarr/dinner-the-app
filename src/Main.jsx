@@ -3,7 +3,7 @@ import Nav from "./Nav";
 import Title from "./Title";
 import Card from "./Card";
 import ApiContext from "./ApiContext";
-class App extends Component {
+class Main extends Component {
   static contextType = ApiContext;
   componentDidMount() {
     this.context.getMeal();
@@ -20,4 +20,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Main;

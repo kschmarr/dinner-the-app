@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import AddMeal from "../AddMeal";
+
+import Splash from "../Splash";
 it("renders without crashing", () => {
   const div = document.createElement("div");
   ReactDOM.render(
     <BrowserRouter>
-      <AddMeal />
+      <Splash />
     </BrowserRouter>,
     div
   );

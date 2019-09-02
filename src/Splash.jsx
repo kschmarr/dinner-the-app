@@ -18,11 +18,12 @@ export default class Splash extends Component {
             Simple. You tell us the name of a meal and pick if it goes in the
             Short, Medium, or Long rotation. Do this for all the meals on your
             family's menu. The pattern for choosing meals is based on the
-            rotation you select for each one. It goes: Short => Medium => Short
-            => Medium => Short => Long. <br /> Let us know once you decide to
-            enjoy the current meal by clicking the "NEXT MEAL" button and the
-            app will display the next meal in your sequence. This program works
-            best if each rotation list has a similar number of meals.
+            rotation you select for each one. <br />
+            It goes: Short => Medium => Short => Medium => Short => Long. <br />
+            Let us know once you decide to enjoy the current meal by clicking
+            the "NEXT MEAL" button and the app will display the next meal in
+            your sequence. This program works best if each rotation list has a
+            similar number of meals.
           </p>
         </section>
         <section>
