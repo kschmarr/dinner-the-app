@@ -10,7 +10,7 @@
     "react-dom": "^16.8.6",
     "react-floating-label-input": "^4.1.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "test": "react-scripts test",
